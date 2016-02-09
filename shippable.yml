@@ -5,19 +5,29 @@ rvm:
   - 1.9.3
   - 2.0.0-p353
   - 2.1.0
-  - 2.1.1
-  - 2.1.2
+  #- 2.1.1
+  #- 2.1.2
   - jruby
   - jruby-19mode # JRuby in 1.9 mode
   - jruby-head
   - ruby-head
   - ree
-env:  
-  global:
-    - FOO=FUBU
+env: 
+  - M1=ONE
+  - M2=TWO
+ 
 
   matrix:
-    - M1=ONE
+    include:
+      - rvm: 2.1.1
+        env: M1=ONE
+      - rvm: 2.1.2
+        env: M1=TWO
+    exclude:
+      - rvm: 1.9.2
+        env: M1=ONE
+      - rvm: 1.9.3
+        env: M2=TWO
 
 build:
   pre_ci:
@@ -40,8 +50,6 @@ integrations:
   hub:
     - integrationName: ship-docker
       type: docker
-      branches:
-        only:
-          - master   
+      
 
 
